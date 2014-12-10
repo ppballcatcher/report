@@ -1,0 +1,9 @@
+PWD /mnt/Free/Dropbox/Robot Systems Projects/Robot Electronics/Report/chapters/pc_program
+INPUT /etc/texmf/web2c/texmf.cnf
+INPUT /usr/share/texmf/web2c/texmf.cnf
+INPUT /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
+INPUT /mnt/Free/Dropbox/Robot Systems Projects/Robot Electronics/Report/chapters/pc_program/pc_program.tex
+OUTPUT /mnt/Free/Dropbox/Robot Systems Projects/Robot Electronics/Report/chapters/pc_program/pc_program.log
+INPUT /usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /home/veimox/texmf/fonts/tfm/public/cm/cmbx10.tfm

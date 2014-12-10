@@ -1,0 +1,54 @@
+\documentclass[]{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{textcomp}
+\usepackage{siunitx}
+\usepackage{authblk}
+\usepackage{gensymb} %For \degree symbol
+\usepackage{color} %For colorize the text. Just for make red the reminders
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{amsmath} % align
+\usetikzlibrary{calc}
+
+%\addbibresource{bibliography.bib}
+\bibliography{bibliography.bib}
+
+
+% text overline command
+\makeatletter
+\newcommand*{\textoverline}[1]{$\overline{\hbox{#1}}\m@th$}
+\makeatother
+
+% Title Page
+\title{Ping pong ball catcher}
+\date{October 27, 2014}
+\author{Anders Jensen\thanks{\url{anje111@student.sdu.dk}}}
+\author{Jorge Rodriguez Marin\thanks{\url{jorod14@student.sdu.dk}}}
+\author{Kim Lindberg Schwaner\thanks{\url{kschw10@student.sdu.dk}}}
+\affil{University of Southern Denmark\\Faculty of Engineering\\EMB1}
+
+\begin{document}
+
+\maketitle
+\include{chapters/abstract/abstract}
+\tableofcontents
+\include{chapters/introduction/introduction}
+\include{chapters/methodology/methodology}
+\include{chapters/positioning/positioning}
+\include{chapters/bounceBack/bounceBack}
+\include{chapters/catcher/catcher}
+\include{chapters/pc_program/pc_program}
+\include{chapters/conclusions/conclusions}
+
+\nocite{*} %To print the no referencered referencies
+\printbibliography[heading=bibintoc]
+
+\end{document}          

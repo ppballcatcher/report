@@ -1,0 +1,81 @@
+\chapter{Methodology and Equipment}
+\label{chap:methodology}
+
+In order to complete the project a number of methods and materials were used.
+\section{Methodology}
+\label{sec:methodology}
+
+The whole project was divided in two $subprojects$: the main board \ref{chap:main_board} and the brick sorter \ref{chap:bricksorter}.
+
+For each project the methodology applied was:
+\begin{enumerate}
+\item Definition of the goals
+\item Division of the workload in: PCB Design, Manufacturing and Programing
+\item Merge the achievements
+\end{enumerate}
+
+\subsection{PCB Design}
+In turn, the PCB Design was divided in:
+\begin{itemize}
+\item First circuit sketch
+\item First selection of the components
+\item Implementation of the first circuit on a breadboard
+\item Validation of the design
+\end{itemize}
+
+While in parallel the Eagle work was:
+\begin{itemize}
+\item Design of the schematics' circuit in Eagle
+\item Design of the board in Eagle. Optimization of the routes and the components' position
+\item Validation of the design
+\end{itemize}
+
+\subsection{Manufacturing}
+Once the design in Eagle was approved, the manufacturing process started. The workload was divided again for two men, trying to optimize the work in parallel, in:
+\begin{itemize}
+\item Components collection
+\item Cutting of the board
+\item Printing of the transparencies
+\item PCB drawing process
+\item Drilling
+\item Component's soldering
+\end{itemize}
+
+\subsection{Programming}
+A requirement of the project was that the FPGA should serve as the controller for the brick sorting machine which also being linked to a PC via. \textmu TosNet. That requires a hardware description for the unit. The implementation is done in VHDL.
+
+The basis for the implementation is the example provided with the project assignment. The \textmu TosNet is essentially unchanged, except for ``our'' data being placed on the shared blackboard memory.
+
+Each part is written as an individual component, connected to each other and the physical pins on the top level. The components were each defined as follows:
+\begin{itemize}
+	\item Identify component I/O. Ultimately each component should be a ``black box'' taking an input and generating an appropriate output.
+	\item Write the internal logic of the component.
+	\item Create a test bench and simulate to assert that output is as expected.
+\end{itemize}
+
+%\textcolor{red}{This workload division was made to ensure all the people be working at the same time so, while one person was measuring the circuit other was designing the board and the last person programming the software.}
+
+\section{Equipment}
+\label{sec:equipment}
+
+To develop and test the designed solution the following equipments were used.
+
+\begin{itemize}
+\item Oscilloscope
+\item Multimeter
+\item Soldering iron
+\item solder
+\item FPGA Spartan 3
+\item Eagle 7.1 light
+\item Breadboard
+\item PCB development instruments
+\item Printer
+\item DC servo motor
+\item Slider setup(see picture on front page)
+\item Colored Lego bricks
+\end{itemize}
+
+
+
+
+
