@@ -6,7 +6,24 @@ A arm will be mounted on a stick besides the platform so that the net does not h
 \label{armConstruction}
 How the arm is constructed to be robust and fast while being able to reach the specified area for impact.
 
-
 \section{Inverse kinematics and control }
 \label{kinematics}
-How the arm are controlled to a specified xy-position
+The inverse kinematics for the one joint arm can be calculated very simple using the x and y position calculated from the TDOA information using equation \ref{eq:angle}.
+
+\begin{equation}
+	angle = atan(y/x)
+	\label{eq:angle}
+\end{equation}
+
+This calculation are easily implemented in c code on microblaze MCS. 
+
+\subsection{Servo control}
+The servo are controlled to move the arm to the calculated angle. By testing it is found that the servo copes with the standard for servos by going to zero degree when a $1\si{ms}$ high is applied. When the PPM signal is high for $2\si{ms}$ it moves to a $90\degree$ angle. In between there are a linear relationship between the time with high signal and the amount of degrees it moves to.
+Todo: finish this, maybe change implementation in VHDL
+The amount of time the servo is high are controlled with the generic PWM module designed in project one which recessives the number of   
+
+%The PWM generator is a rather simple component which outputs a square signal with the desired period and variable duty cycle.
+%The implementation has generic parameters for in- and output frequencies which enables the user easily instantiate a component with the correct output signal period.
+
+%Duty cycle resolution is also specified upon instantiation, allowing for more or less fine-grained control of PWM duty cycle.
+%For example, a resolution of two bits allows selection of the duty cycle steps $0, 33, 66$ and $100\%$.
