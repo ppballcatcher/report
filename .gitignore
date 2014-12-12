@@ -9,6 +9,7 @@
 *.run.xml
 *.synctex.gz
 *.toc
+*.fuse*
 
 #Sublime Text
 *.sublime*
