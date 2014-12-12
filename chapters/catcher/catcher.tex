@@ -1,11 +1,12 @@
 \chapter{Two joint arm as ball catcher}
 \label{catcherArm}
-A arm will be mounted on a stick besides the platform so that the net does not hit the ground. The arm consist of two
+	A arm will be mounted on a stick besides the platform so that the net does not hit the ground. The arm consist of two
 
-\section{Physical construction}
-\label{armConstruction}
-How the arm is constructed to be robust and fast while being able to reach the specified area for impact.
+	\section{Physical construction}
+	\label{armConstruction}
+		How the arm is constructed to be robust and fast while being able to reach the specified area for impact.
 
+<<<<<<< HEAD
 \section{Inverse kinematics and control }
 \label{kinematics}
 The inverse kinematics for the one joint arm can be calculated very simple using the x and y position calculated from the TDOA information using equation \ref{eq:angle}.
@@ -27,3 +28,12 @@ The amount of time the servo is high are controlled with the generic PWM module 
 
 %Duty cycle resolution is also specified upon instantiation, allowing for more or less fine-grained control of PWM duty cycle.
 %For example, a resolution of two bits allows selection of the duty cycle steps $0, 33, 66$ and $100\%$.
+=======
+
+	\section{Inverse kinematics and control}
+	\label{kinematics}
+		Due to the construction of this prototype with just one servo, the position of the servo is defined by:
+
+		$$\theta = \arctan\frac{y}{x}$$
+
+>>>>>>> origin/master
