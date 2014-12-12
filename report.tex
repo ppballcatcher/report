@@ -16,6 +16,7 @@
 \usepackage{subcaption}
 \usepackage{tikz}
 \usepackage{mathtools}
+\usepackage{pdfpages} %Include pdfs
 \usetikzlibrary{calc}
 
 \bibliography{bibliography.bib}
@@ -48,5 +49,7 @@
 
 \nocite{*} %To print the no referencered referencies
 \printbibliography[heading=bibintoc]
+
+\includepdf[pages={1-7}]{includes/planes.pdf}
 
 \end{document}          
