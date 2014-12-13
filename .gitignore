@@ -10,6 +10,7 @@
 *.synctex.gz
 *.toc
 *.fuse*
+/*.pdf
 
 #Sublime Text
 *.sublime*
