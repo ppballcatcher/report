@@ -1,5 +1,5 @@
-\chapter{Overall Design Priciples} % (fold)
-\label{cha:overall_design_priciples}
+\chapter{Overall Design Principles} % (fold)
+\label{chap:overall_design_principles}
 	In this section the relationship between differences in time measurements from multiple sensors and the xy-position of the emitter are derived.	
 	The problem can be modeled as in figure \ref{fig:tdoa_model} where the following parameters are known from the setup and measurements:
 	\begin{itemize}
@@ -45,7 +45,7 @@
 		(x_a - x_b) x + (y_a - y_b) y - v^2(t_a - t_b) t = (x_a^2 +y_a^2 -(x_b^2 + y_b^2) - v^2(t_a^2 - t_b^2))/2 \equiv k_{ab}
 		\label{eq:firstRow}
 	\end{equation}
-	Using similar relations for the other four sensors results in the system of linear equations \ref{eq:linsys} which solution uniquely defines the xy-position of the impact \cite{toa_notes}.
+	Using similar relations for the other four sensors results in the system of linear equations \ref{eq:linsys} which solution uniquely defines the xy-position of the impact \cite{tdoa_notes}.
 	\begin{equation}
 		\begin{bmatrix} 
 			x_a - x_b & y_a - y_b & - v^2(t_a - t_b) \\
