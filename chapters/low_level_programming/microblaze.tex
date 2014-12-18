@@ -19,7 +19,7 @@ Due to these limitations the more suitable Nexus 2 board is used which includes 
 The Microblace MCS is included in the VHDL project as an IP-core using the IP-core generator GUI in ISE-design suit. Here the settings are left at their default values unless otherwise needed. The memory size is assigned to 32k since test showed sufficient space on the FPGA for this. The UART is setup to transmit and recive at a baud rate on 115200 without using interrupts. Four general purpose inputs(GPI) with a size of 32 bits is used to receive four timings values. The 32 bits precision is used since the Microblaze has a is a 32-bits processor. Two general purpose outputs(GPO) is used. One of them contains the newest calculated angle from the inverse kinematics and the other one is used as a flag indicating that a new angle is available. One external interrupt is used to initialize the calculation of the TDOA problem. 
 %
 \subsection{C-program on Microblaze}
-The program running on the Microblaze is built op rather simple with a setup followed by a while true loop responding with results of the TDOA problem upon request from the PC-program. Since there is rather strict timing constrains on calculating the inverse kinematics in order to move the arm under the ball before a second hit the calculations are handled in a interrupt service routine. The program is build using standard math utilities and specialized Microblace tools for GPIO, interrupts and UART.
+The program running on the Microblaze is built op rather simple with a setup sequence followed by a while true loop responding with results of the TDOA problem upon request from the PC-program. Since there is rather strict timing constrains on calculating the inverse kinematics in order to move the arm under the ball before a second hit, the calculations are handled in a interrupt service routine. After the calculations are done a software timer is started. When the time have elapsed the timing measurements are enable again by setting a flag through a GPO port and the servo angle are set to its default position. The program is build using standard math utilities and specialized Microblace tools for GPIO, interrupts and UART.
 %
 \subsection{Interrupts on Microblaze}
 The code in listing \ref{lst:interrupt} enables external interrupts by adding an interrupt handling routine that handles the calculations to the external interrupt 1.
@@ -57,6 +57,20 @@ The reading from general purpose registers are done using the command
 Where the gpio is a struct handling the IO's that are initialized and started before use.
 Writing to a GPO is done in a similar way.
 By running the command \custtt{XIOModule\_CfgInitialize(\&gpio, NULL, 1)} the reading from the UART is enabled.
+
+\section{Inverse kinematics and control }
+\label{sec:mechanics_kinematics}
+The inverse kinematics for the one joint arm can be calculated very easily using the x and y position calculated from the TDOA information using equation \ref{eq:angle}.
+
+\begin{equation}
+\theta = atan(y/x)
+\label{eq:angle}
+\end{equation}
+
+This calculation are easily implemented in C code on microblaze MCS.
+
+\subsection{Servo control}
+The servo is controlled to move the arm to the calculated angle. By testing it is found that the servo copes with the standard for servos by going to zero degree when a $1\si{ms}$ high is applied. When the PWM signal is high for $2\si{ms}$ it moves to a $90\si{\degree}$ angle. In between there is a linear relationship between duty cycle and the degrees it moves to.
 %
 \subsection{Evaluation}
 The ability of the implemented programs ability to for fill the tasks it is assigned to have been verified separately. The correctness of the solution of the implemented Gauss-elimination have been verified by comparing solutions with MATLAB's solution which give precisely the same solution.
