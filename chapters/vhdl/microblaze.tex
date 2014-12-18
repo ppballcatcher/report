@@ -1,0 +1,59 @@
+\section{Microblaze MCS}
+A Microblace micro controller system(MCS) is used for handling the following tasks in descending priority:
+\begin{itemize}
+	\item Fast and precise solution to the TDOA problem.
+	\item Calculating inverse kinematics for the robot arm.
+	\item Handling UART communication with a PC.
+\end{itemize}
+The choice of using a MCS is due to expediency in the implementation.
+
+\subsection{Setup of Microblaze IP-core} 
+It is chosen to implement the solution of the TDOA problem in Microblaze MCS version 1.4. This soft core microcontroller implemented on an FPGA is used rather than developing the solution directly in VHDL. 
+The reason for this choice is that it is easier to implement the commonly used numerical methods for solving systems of linear equations in a sequential order rather than in parallel. 
+The smaller and older Picroblaze MCS is avoided since xilinx does not support a C compiler  
+($http://forums.xilinx.com/t5/PicoBlaze/PicoBlaze-FAQ-Is-there-a-C-Compiler/td-p/580$). 
+The Microblaze system with more than 4k of memory has proven take up more than the 50K logic gates available on the XC3S50AN, that is mounted on the previously use development board ($http://www.xilinx.com/support/documentation/data_sheets/ds557.pdf$). 
+This small memory size is too small for easy implementations which often includes large programs. As an example of a nice function that takes op a lot of program space is the printf function, that is very useful for debugging.
+Due to these limitations the more suitable Nexus 2 board is used which includes an Spartan-3E with 500K gates.  
+
+The Microblace MCS is included in the VHDL project as an IP-core using the IP-core generator GUI in ISE-design suit. Here the settings are left at their default values unless otherwise needed. The memory size is assigned to 32k since test showed sufficient space on the FPGA for this. The UART is setup to transmit and recive at a baud rate on 115200 without using interrupts. Four general purpose inputs(GPI) with a size of 32 bits is used to receive four timings values. The 32 bits precision is used since the Microblaze has a is a 32-bits processor. Two general purpose outputs(GPO) is used. One of them contains the newest calculated angle from the inverse kinematics and the other one is used as a flag indicating that a new angle is available. One external interrupt is used to initialize the calculation of the TDOA problem. 
+
+\subsection{C-program on Microblaze}
+The program running on the Microblaze is built op rather simple with a setup followed by a while true loop responding with results of the TDOA problem upon request from the PC-program. Since there is rather strict timing constrains on calculating the inverse kinematics in order to move the arm under the ball before a second hit the calculations are handled in a interrupt service routine. The program is build using standard math utilities and specialized Microblace tools for GPIO, interrupts and UART.
+
+\subsection{Interrupts on Microblaze}
+The following sequence of instructions are run in order for the external interrupt to be triggered:  
+// setup interrupts
+microblaze_register_handler(XIOModule_DeviceInterruptHandler, XPAR_IOMODULE_0_DEVICE_ID);
+XIOModule_Connect(&gpio, INTR_ID1, (XInterruptHandler)isr, XPAR_IOMODULE_0_DEVICE_ID);
+XIOModule_Enable(&gpio, INTR_ID1);
+microblaze_enable_interrupts();
+
+
+\subsection{Solve TDOA}
+The solution to the TDOA problem is handled by solving the system of linear equations described in section TODO:(intro about TDOA reference). To keep implementation simple the solution is implemented with gauss elimination. Software implemented floating point precision are used in the calculations due to the fact that the used free version of Microblaze does not include a floating point arithmetic unit. 
+The gauss elimination is implemented by running through each column and for each do the following (Source Numerical analysis):
+\begin{itemize}
+	\item Pivoting by sorting the from top to bottom rows according to descending pivot elements.
+	\item Eliminate elements in column under current pivot element by subtracting the current row multiplied with the element in the pivot column under the pivot element under consideration divided with the pivot element.
+\end{itemize}
+When the iterations reaches the last column the coefficient matrix is on an upper triangular matrix form. This enables back substitution starting from the button row and calculating the solution x based on the previous calculated solution as can be seen in equation.
+\begin{equation}
+	x_n = \frac{b_n}{a_{nn}}
+\end{equation}
+
+\begin{equation}
+	x_i = \frac{1}{a_{ii}} (b_i - \sum_{j=i+1}^{n-1} a_{ij}x_j)
+\end{equation}
+Where a is the coefficient matrix, b is the right hand side vector and n is the number of rows and columns.
+
+The inverse kinematics are calculated using $atan(y/x)$ where $y$ and $x$ are the calculated coordinates of the impact point. 
+
+\subsection{GPIO and UART}
+The reading from general purpose registers are done with the following command 
+XIOModule_DiscreteRead(&gpio, #GPO register);
+
+Where the gpio is a struct handling the io's that are initialized and started before use.
+Writing to a GPO is done in a similar way.
+In order to read from the UART the following initialization needs to be run:
+XIOModule_CfgInitialize(&gpio, NULL, 1);

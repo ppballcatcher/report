@@ -1,12 +1,11 @@
 \chapter{PC Program}
 \label{chap:pc_program}
-	A PC program shows the position of the hit and save a history where the user can see all the hits in the session along with the position.
+	A PC program will show the position of the hit point and the hight the ball will bounce back to.
 
 	\section{Communication and Logic}
 	\label{sec:pc_program_com}
-		Regarding the communication, the PC program and the FPGA are connected by a USB wire and this protocol is handle by the Qt serial libraries given. 
-		This let the communication in hands of a code that has been already tested. 
-		The use of Qt let the user compile and use this program in any operative system which gives to the user freedom to use the machine in more conditions.
+		Regarding the communication, the PC program and the FPGA are connected by a USB wire and this protocol is handle by the qt serial libraries given. 
+		This let the communication in hands of a code that has been already tested.
 
 		The program is the master in the communication, and it try to establish communication by default from the beginning. 
 		While there are a default connection options, a settings window has been implemented so the user can change the options easily. 
