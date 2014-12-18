@@ -8,6 +8,7 @@
 		The physical implementation of the project is divided in three parts.
 
 		First, the platform where the sensors are allocated. 
+		The physical platform area will be a flat area of approximately $40\times40\,\si{\centi\meter}$.
 		This platform was decided to be an aluminum sheet due to two reasons: metal sheets usually have homogeneous mechanical properties and this especially important for this project because the same propagation waves speed is searched; and, inside the metals, aluminum was choosen for stock reasons and easy manufacturing. 
 		This platform is separed from the down surface with a plastics legs ij the corners that let the waves, first reach the sensors and then dissipate through them.
 
@@ -22,6 +23,34 @@
 		The inverse cinematics is really easy to calculate and is much simpler in the assembly and maintenance.
 			
 	% section design (end)
+
+	\section{Inverse kinematics and control }
+	\label{sec:kinematics}
+		The inverse kinematics for the one joint arm can be calculated very simple using the x and y position calculated from the TDOA information using equation \ref{eq:angle}.
+
+		\begin{equation}
+			angle = atan(y/x)
+			\label{eq:angle}
+		\end{equation}
+
+		This calculation are easily implemented in c code on microblaze MCS.
+
+		\subsection{Servo control}
+		The servo are controlled to move the arm to the calculated angle. By testing it is found that the servo copes with the standard for servos by going to zero degree when a $1\si{ms}$ high is applied. When the PPM signal is high for $2\si{ms}$ it moves to a $90\si{\degree}$ angle. In between there are a linear relationship between the time with high signal and the amount of degrees it moves to.
+		Todo: finish this, maybe change implementation in VHDL
+		The amount of time the servo is high are controlled with the generic PWM module designed in project one which recessives the number of
+
+		%The PWM generator is a rather simple component which outputs a square signal with the desired period and variable duty cycle.
+		%The implementation has generic parameters for in- and output frequencies which enables the user easily instantiate a component with the correct output signal period.
+
+		%Duty cycle resolution is also specified upon instantiation, allowing for more or less fine-grained control of PWM duty cycle.
+		%For example, a resolution of two bits allows selection of the duty cycle steps $0, 33, 66$ and $100\%$.
+
+	\section{Inverse kinematics and control}
+	%\label{kinematics}
+		Due to the construction of this prototype with just one servo, the position of the servo is defined by:
+
+		$$\theta = \arctan\frac{y}{x}$$
 
 	\section{Manufacturing} % (fold)
 	\label{sec:manufacturing}

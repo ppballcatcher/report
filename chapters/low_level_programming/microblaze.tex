@@ -22,12 +22,21 @@ The Microblace MCS is included in the VHDL project as an IP-core using the IP-co
 The program running on the Microblaze is built op rather simple with a setup followed by a while true loop responding with results of the TDOA problem upon request from the PC-program. Since there is rather strict timing constrains on calculating the inverse kinematics in order to move the arm under the ball before a second hit the calculations are handled in a interrupt service routine. The program is build using standard math utilities and specialized Microblace tools for GPIO, interrupts and UART.
 
 \subsection{Interrupts on Microblaze}
-The following sequence of instructions are run in order for the external interrupt to be triggered:  
-// setup interrupts
-microblaze_register_handler(XIOModule_DeviceInterruptHandler, XPAR_IOMODULE_0_DEVICE_ID);
-XIOModule_Connect(&gpio, INTR_ID1, (XInterruptHandler)isr, XPAR_IOMODULE_0_DEVICE_ID);
-XIOModule_Enable(&gpio, INTR_ID1);
-microblaze_enable_interrupts();
+The following sequence of instructions are run in order for the external interrupt to be triggered: 
+
+$\/\/ setup interrupts$
+
+$microblaze\_register\_handler(XIOModule\_DeviceInterruptHandler,$
+
+$XPAR\_IOMODULE\_0\_DEVICE\_ID);$
+
+$XIOModule\_Connect(\&gpio, INTR\_ID1, (XInterruptHandler)isr, $
+
+$XPAR_IOMODULE\_0\_DEVICE\_ID);$
+
+$XIOModule\_Enable(\&gpio, INTR_ID1);$
+
+$microblaze\_enable\_interrupts();$
 
 
 \subsection{Solve TDOA}
@@ -50,10 +59,12 @@ Where a is the coefficient matrix, b is the right hand side vector and n is the 
 The inverse kinematics are calculated using $atan(y/x)$ where $y$ and $x$ are the calculated coordinates of the impact point. 
 
 \subsection{GPIO and UART}
-The reading from general purpose registers are done with the following command 
-XIOModule_DiscreteRead(&gpio, #GPO register);
+The reading from general purpose registers are done with the following command:
+
+$XIOModule\_DiscreteRead(\&gpio, \#GPO register);$
 
 Where the gpio is a struct handling the io's that are initialized and started before use.
 Writing to a GPO is done in a similar way.
 In order to read from the UART the following initialization needs to be run:
-XIOModule_CfgInitialize(&gpio, NULL, 1);
+
+$XIOModule\_CfgInitialize(\&gpio, NULL, 1);$
