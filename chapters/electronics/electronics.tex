@@ -1,10 +1,10 @@
 \chapter{Electronics} % (fold)
-\label{cha:electronics}
+\label{chap:electronics}
 This chapter describes the construction of a number of sensor circuits using piezo electric elements to measure the time of arrival of bending waves.
 \section{Design of comparator circuit for the piezo electrics elements}
 This section describes the construction of a number of sensor circuits using piezo electric elements to measure the time of arrival of bending waves.
 
-There is a circuit like the one on figure \ref{fig:print} for each sensor. It is chosen to make one print for each circuit in order to keep the wires conducting the analog sensor values as small as possible. 
+There is a circuit like the one on figure \ref{fig:print} for each sensor. It is chosen to make one print for each circuit in order to keep the wires conducting the analog sensor values as small as possible.
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=.8\textwidth]{figures/Print}
@@ -12,7 +12,7 @@ There is a circuit like the one on figure \ref{fig:print} for each sensor. It is
 	\label{fig:print}
 \end{figure}
 The very small current that the piezo electric element generates are amplified with a resistor on $8.2\si{\ohm}$. This value is chosen since test showed that it was possible to detect ball bounce after a drop from a hight on $30\si{\centi\meter}$ which are deemed as the minimum drop hight.
-Diodes are used to account for the large positive and negative voltage spikes that the sensor in combination with the large resistor can output in case of a powerful input to the sensor. 
+Diodes are used to account for the large positive and negative voltage spikes that the sensor in combination with the large resistor can output in case of a powerful input to the sensor.
 Since the negative voltage are not use it is removed up to $0.7V$ with a diode which conducts current from ground when the voltage from the piezo becomes less then $0.7V$.
 The resistor to limit this current is calculated according to equation \ref{eq:distDifference}.
 \begin{equation}
@@ -31,12 +31,12 @@ The resistor placed on the output of the operational amplifier is calculated usi
 5-3.3V = R_{z} I_{test} \Leftrightarrow R_{z} = 1.7V/5mA = 340\si{\ohm}
 \label{eq:zener}
 \end{equation}
-% 
+%
 A potentiometer is connected to the inverting pin of the op-amp in order to ease the tuning of the reference voltage. It's value is set to $1\si{\mega\ohm}$ to minimize the power consumption.
 The tuning of the reference voltage is conducted by dropping a ball from $30\si{\centi\meter}$  and that the comparators are triggered. The voltage are lowered until the one off the sensor circuits does not detect the ball hit. Then it is raised to a bit above that to ensure detection. Hence the reference voltage for all of the four circuits are adjusted to $9.4V$ which have proven to be very robots against disturbances in the form of vibrations in the surrounding while still being able to detect ball hits.
 %
 \subsection{PCB Design and manufacturing}
-After designing the schematics it was verified on a breadboard. Then the design from the breadboard are drawn as a schematics and a board in eagle. 
+After designing the schematics it was verified on a breadboard. Then the design from the breadboard are drawn as a schematics and a board in eagle.
 The PCB is routed to keep wires as short as possible in order to minimize influence of noise as can be seen on figure \ref{fig:pcb}.
 \begin{figure}[htb]
 	\centering
@@ -44,6 +44,6 @@ The PCB is routed to keep wires as short as possible in order to minimize influe
 	\caption{PCB board of circuit for digitalizing the output from a piezo electric elements.}
 	\label{fig:pcb}
 \end{figure}
-The width of the wires are chosen to be thick in order to ease the manufacturing. Then the risk of the wires disappearing in the basic fluid are smaller. 
+The width of the wires are chosen to be thick in order to ease the manufacturing. Then the risk of the wires disappearing in the basic fluid are smaller.
 After verifying the schematics one of the four identical PCB's are manufactured and tested before producing the others.
 Other simpler electrical connections are manufactured on stripboards to minimize time spend on producing PCB's.
