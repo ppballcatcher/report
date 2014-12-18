@@ -1,25 +1,41 @@
 \documentclass[]{report}
-
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{lmodern}
+\usepackage{graphicx}
 \usepackage[backend=biber,style=numeric]{biblatex}
 \usepackage[hidelinks]{hyperref}
+\usepackage{url}
 \usepackage{authblk}
 \usepackage{tikz}
+\usepackage[european]{circuitikz}
 \usepackage{siunitx}
 \usepackage{amsmath}
+\usepackage{tocbibind}
 \usepackage{pdfpages} %Include pdfs
-\usetikzlibrary{calc}
-
-% \usepackage[T1]{fontenc}
-% \usepackage[english]{babel}
-% \usepackage{csquotes}
-% \usepackage{lmodern}
-% \usepackage{graphicx}
-% \usepackage{url}
-% \usepackage{subcaption}
-% \usepackage{tocbibind}
+\usepackage{subcaption}
 
 \addbibresource{bibliography.bib}
+
+% text overline command
+\makeatletter
+\newcommand*{\textoverline}[1]{$\overline{\hbox{#1}}\m@th$}
+\makeatother
+
+% to justify typewriter monofont if used a lot in one place
+\newcommand*\justify{%
+  \fontdimen2\font=0.4em% interword space
+  \fontdimen3\font=0.2em% interword stretch
+  \fontdimen4\font=0.1em% interword shrink
+  \fontdimen7\font=0.1em% extra space
+  \hyphenchar\font=`\-% allowing hyphenation
+}
+
+% Define custom typewriter shorthands (uses \justify)
+\newcommand{\custtt}[1]{\texttt{\justify{\small #1}}}
+\newcommand{\smalltt}[1]{\texttt{{\small #1}}}
 
 % Title Page
 \title{Ping pong ball catcher}
