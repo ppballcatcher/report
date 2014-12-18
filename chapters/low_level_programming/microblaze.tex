@@ -1,5 +1,5 @@
 \section{Microblaze MCS}
-A Microblace micro controller system(MCS) is used for handling the following tasks in descending priority:
+A Microblaze micro controller system(MCS) is used for handling the following tasks in descending priority:
 \begin{itemize}
 	\item Fast and precise solution to the TDOA problem.
 	\item Calculating inverse kinematics for the robot arm.
@@ -57,3 +57,6 @@ The reading from general purpose registers are done using the command
 Where the gpio is a struct handling the IO's that are initialized and started before use.
 Writing to a GPO is done in a similar way.
 By running the command \custtt{XIOModule\_CfgInitialize(\&gpio, NULL, 1)} the reading from the UART is enabled.
+%
+\subsection{Evaluation}
+The ability of the implemented programs ability to for fill the tasks it is assigned to have been verified separately. The correctness of the solution of the implemented Gauss-elimination have been verified by comparing solutions with MATLAB's solution which give precisely the same solution.
