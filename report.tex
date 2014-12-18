@@ -1,29 +1,29 @@
 \documentclass[]{report}
-
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{lmodern}
+\usepackage{graphicx}
 \usepackage[backend=biber,style=numeric]{biblatex}
 \usepackage[hidelinks]{hyperref}
+\usepackage{url}
 \usepackage{siunitx}
 \usepackage{authblk}
+\usepackage{textcomp}
+\usepackage{gensymb} %For \degree symbol
+\usepackage{subcaption}
 \usepackage{tikz}
 \usepackage{amsmath}
 \usepackage{pdfpages} %Include pdfs
-%\usepackage[T1]{fontenc}
-%\usepackage[english]{babel}
-%\usepackage{csquotes}
-%\usepackage{lmodern}
-%\usepackage{graphicx}
-%\usepackage{url}
-%\usepackage{subcaption}
-%\usepackage{tocbibind}
-%\usetikzlibrary{calc}
+\usetikzlibrary{calc}
 
-\addbibresource{bibliography.bib}
+\bibliography{bibliography.bib}
 
 % text overline command
-% \makeatletter
-% \newcommand*{\textoverline}[1]{$\overline{\hbox{#1}}\m@th$}
-% \makeatother
+\makeatletter
+\newcommand*{\textoverline}[1]{$\overline{\hbox{#1}}\m@th$}
+\makeatother
 
 % Title Page
 \title{Ping pong ball catcher}
@@ -35,28 +35,20 @@
 
 \begin{document}
 
-	\maketitle
-	\include{chapters/abstract/abstract}
-	\tableofcontents
-	
-	\include{chapters/introduction/introduction}
-	\include{chapters/methodology/methodology}
-	\include{chapters/positioning/positioning}
-	% \include{chapters/bounceBack/bounceBack}
-	\include{chapters/mechanics}
-	\include{chapters/catcher/catcher}
-	\include{chapters/pc_program/pc_program}
-	\include{chapters/conclusions/conclusions}
+\maketitle
+\include{chapters/abstract/abstract}
+\tableofcontents
+\include{chapters/introduction/introduction}
+\include{chapters/methodology/methodology}
+\include{chapters/positioning/positioning}
+% \include{chapters/bounceBack/bounceBack}
+\include{chapters/catcher/catcher}
+\include{chapters/pc_program/pc_program}
+\include{chapters/conclusions/conclusions}
 
-	\nocite{*} %To print the no referencered referencies
-	\printbibliography[heading=bibintoc]
+\nocite{*} %To print the no referencered referencies
+\printbibliography[heading=bibintoc]
 
-	\appendix
-	\chapter{Mechanical drawings}
-	\includepdf[pages={1-7}]{includes/planes.pdf}
-
-	\chapter{Digital circuit design diagrams}\label{cha:digi-diagrams}
-	\includepdf[]{figures/rtl-sch.pdf}
-	\includepdf[landscape]{figures/tech-sch.pdf}
+\includepdf[pages={1-7}]{includes/planes.pdf}
 
 \end{document}
