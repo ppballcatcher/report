@@ -1,0 +1,67 @@
+%!TEX root = ../report.tex
+% We need layers to draw the block diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\begin{tikzpicture}[
+        block/.style={rectangle,draw,fill=blue!20,text width=3cm,
+        text centered,minimum height=1cm},
+        every node/.style={font=\small},
+        node distance=0.5cm and 1cm,
+        >=latex',
+        auto]
+
+
+    \node [block,right=of microblaze] (pwm) {PWM generator};
+    \node [block,above=of pwm] (timing) {Timing};
+    \node [block,rotate=90] (microblaze) {MicroBlaze};
+
+    % \node [draw=red, right=of first] {2};
+
+    % %
+    % \node [block, left=of manual] (gcs_wireless) {Wireless modem};
+
+    % %
+    % \node [block, below=of manual] (ppm) {PPM encoder};
+    % \node [block, below=of ppm] (io) {PX4IO servo controller};
+    % \node [block, right=of io] (imu) {IMU};
+    % \node [block, left=of io] (pix_wireless) {Wireless modem};
+    % \node [block, below=of io.south west, anchor=north west, minimum width=7.52cm] (fmu) {PX4FMU flight controller};
+    % \node [block, left=of fmu] (gps) {GPS};
+
+
+    % \begin{pgfonlayer}{background}
+    %     \path (servo.west |- servo.north)+(-0.1, 1) node (heli_nw) {};
+    %     \path (servo.south -| servo.east)+(0.1, -0.1) node (heli_se) {};
+    %     \node[fill=blue!10, rounded corners, draw=black!50, dashed, fit=(heli_nw) (heli_se), inner sep=0pt] (heli_box) {};
+
+    %     \path (gcs_wireless.west |- gcs_wireless.north)+(-0.1, 1) node (gcs_nw) {};
+    %     \path (gcs_wireless.south -| gcs_wireless.east)+(0.1, -0.1) node (gcs_se) {};
+    %     \node[fill=blue!10, rounded corners, draw=black!50, dashed, fit=(gcs_nw) (gcs_se), inner sep=0pt] (gcs_box) {};
+
+    %     \path (manual.west |- manual.north)+(-0.1, 1) node (manual_nw) {};
+    %     \path (manual.south -| manual.east)+(0.1, -0.1) node (manual_se) {};
+    %     \node[fill=blue!10, rounded corners, draw=black!50, dashed, fit=(manual_nw) (manual_se), inner sep=0pt] (manual_box) {};
+
+    %     \path (io.west |- io.north)+(-0.1, 0.1) node (io_nw) {};
+    %     \path (fmu.south -| imu.east)+(0.1, -1) node (io_se) {};
+    %     \node[fill=blue!10, rounded corners, draw=black!50, dashed, fit=(io_nw) (io_se), inner sep=0pt] (pixhawk_box) {};
+    % \end{pgfonlayer}
+
+    % \node [above=0pt of heli_box, anchor=north] {RC helicopter};
+    % \node [above=0pt of manual_box, anchor=north] {Manual control};
+    % \node [above=0pt of gcs_box, text width=3cm, text centered, anchor=north] {Ground control station};
+    % \node [below=0pt of pixhawk_box, anchor=south] {Pixhawk autopilot};
+
+    % \draw [->] (io.east) -| ++(0.5,0) |- (servo.west);
+    % \draw [->] (manual) -- (ppm);
+    % \draw [->] (ppm) -- (io);
+    % \draw [<->] (io) -- (io|-fmu.north);
+    % \draw [<->] (pix_wireless) -- (pix_wireless|-gcs_wireless.south);
+    % \draw [<->] (pix_wireless.south east) -- (fmu.north west);
+    % \draw [->] (heli_box) -- (imu);
+    % \draw [->] (imu) -- (imu|-fmu.north);
+    % \draw [->] (gps) -- (fmu);
+
+\end{tikzpicture}
