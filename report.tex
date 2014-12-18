@@ -16,10 +16,9 @@
 \usepackage{tocbibind}
 \usepackage{pdfpages} %Include pdfs
 \usepackage{subcaption}
-
-% Includes for nice code ------------------------------------------
 \usepackage{listings}
-%\usepackage{inconsolata}
+
+\addbibresource{bibliography.bib}
 
 \lstloadlanguages{C}
 \lstset{captionpos=b,
@@ -78,7 +77,7 @@
 	\include{chapters/discussion/discussion}
 	\include{chapters/conclusions/conclusions}
 
-	\nocite{*} %To print the no referencered referencies
+	%\nocite{*} %To print the no referencered referencies
 	\printbibliography[heading=bibintoc]
 
 	\appendix
@@ -91,8 +90,13 @@
 			\includepdf[]{figures/rtl-sch.pdf}
 			\includepdf[landscape]{figures/tech-sch.pdf}
 
+<<<<<<< HEAD
 		\chapter{Equipament}
 		\label{chap:equipment}
+=======
+		\chapter{Equipment}
+		\label{cha:equipment}
+>>>>>>> fa31d6bddf0c885e88a20647a8d75d93ead6e057
 			\input{chapters/equipment/equipment}
 
 \end{document}
