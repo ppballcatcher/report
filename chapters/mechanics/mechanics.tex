@@ -24,27 +24,7 @@
 		Having this requirements in mind, the arm was decided to have only one motor for simplicity reasons and as a prove of concept. 
 		The inverse kinematics was really easy to calculate and much simpler in the assembly and maintenance.
 	% section design (end)
-
-	\section{Inverse kinematics and control }
-	\label{sec:mechanics_kinematics}
-		The inverse kinematics for the one joint arm can be calculated very easily using the x and y position calculated from the TDOA information using equation \ref{eq:angle}.
-
-		\begin{equation}
-			\theta = atan(y/x)
-			\label{eq:angle}
-		\end{equation}
-
-		This calculation are easily implemented in C code on microblaze MCS.
-
-		\subsection{Servo control}
-		The servo is controlled to move the arm to the calculated angle. By testing it is found that the servo copes with the standard for servos by going to zero degree when a $1\si{ms}$ high is applied. When the PWM signal is high for $2\si{ms}$ it moves to a $90\si{\degree}$ angle. In between there is a linear relationship between duty cycle and the degrees it moves to.
-
-		%The PWM generator is a rather simple component which outputs a square signal with the desired period and variable duty cycle.
-		%The implementation has generic parameters for in- and output frequencies which enables the user easily instantiate a component with the correct output signal period.
-
-		%Duty cycle resolution is also specified upon instantiation, allowing for more or less fine-grained control of PWM duty cycle.
-		%For example, a resolution of two bits allows selection of the duty cycle steps $0, 33, 66$ and $100\%$.
-
+	
 	\section{Manufacturing} % (fold)
 	\label{sec:mechanics_manufacturing}
 		As explained before an aluminum sheet was used for the platform for its homogeneous properties and availability. 
