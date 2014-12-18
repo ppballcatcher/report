@@ -50,6 +50,9 @@
 \makeatletter
 \newcommand*{\textoverline}[1]{$\overline{\hbox{#1}}\m@th$}
 \makeatother
+%--------------------------------------------------------------
+
+\addbibresource{bibliography.bib}
 
 % Title Page
 \title{Ping pong ball catcher}
@@ -73,24 +76,22 @@
 	\include{chapters/experiments/experiments}
 	\include{chapters/discussion/discussion}
 	\include{chapters/conclusions/conclusions}
-	%\include{chapters/positioning/positioning}
-	%\include{chapters/vhdl/microblaze}
-	% \include{chapters/bounceBack/bounceBack}
-	%\include{chapters/catcher/catcher}
 
 	%\nocite{*} %To print the no referencered referencies
 	\printbibliography[heading=bibintoc]
 
 	\appendix
 		\chapter{Mechanical drawings}
+		\label{chap:mechanical_drawings}
 			\includepdf[pages={1-7}]{includes/planes.pdf}
 
-		\chapter{Digital circuit design diagrams}\label{cha:digi-diagrams}
+		\chapter{Digital circuit design diagrams}
+		\label{chap:digi_diagrams}
 			\includepdf[]{figures/rtl-sch.pdf}
 			\includepdf[landscape]{figures/tech-sch.pdf}
 
 		\chapter{Equipment}
-		\label{cha:equipment}
+		\label{chap:equipment}
 			\input{chapters/equipment/equipment}
 
 \end{document}
