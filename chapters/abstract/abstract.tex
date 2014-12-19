@@ -1,4 +1,10 @@
+%!TEX root = ../../report.tex
 \chapter*{Abstract}
-In the following pages the design and implementation process of a ping pong ball catcher is described. The machine consists of a squared base sensored with four piezo sensors in the corners so it is able to calculate the position of a hit in the base. 
-When a ping pong ball hits the base, a robotic arm will move in to catch the ball after the first rebound.
-The system is equipped with an FPGA that calculates the position of the hit and move the arm, whereas a computer program shows the hits into an interface and save a history of the balls.
+This paper describes the design and implementation of a ping pong ball catcher.
+The purpose of the system is to catch a ball, dropped onto a platform, after it has bounced once.
+The point of impact of a ball can be determined based on time-difference of arrival of the waves expanding through the platform material from the impact point.
+A platform consisting of a square base with four piezoelectric sensors in the corners, and an actuated arm with a net attached, is built.
+Analogue circuits are designed to pre-process sensor signals to interface with an FPGA. A component to precisely measure time differences is written in VHDL.
+Fast calculation of the impact point in implemented in C on a soft microprocessor.
+A desktop GUI application is programmed to obtain and visualise data for each ball hit.
+The measurements of time differences turn out to be too inconsistent to always catch the ball.
