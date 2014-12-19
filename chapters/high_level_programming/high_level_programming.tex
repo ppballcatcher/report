@@ -3,19 +3,19 @@
 	A computer program will show the position of the hit point
 	\section{Communication and Logic}
 	\label{sec:communication_and_logic}
-		Regarding the communication, the computer program and the FPGA are connected by a USB cable and this protocol is handle by the qt serial libraries given. 
+		Regarding the communication, the computer program and the FPGA are connected by a USB cable and this protocol is handle by the qt serial libraries given.
 		This enables communication using code that has already been tested.
 
 		The program is the master in the communication, and it tries to establish communication by default from the beginning.
-		While there are a default connection options, a settings window has been implemented so the user can change the options easily. 
+		While there are a default connection options, a settings window has been implemented so the user can change the options easily.
 		This options are: $Baud Rate, Parity, Stop Bits, Flow Control$ and $Local Echo$.
 
-		Once the communication is establish, the program sends a character that the FPGA interprets as $send hit information$. 
-		Then, the FPGA sends through the USB the $x$ and $y$ coordinated along with a $hash$ of the hit, that defines a unique identifier for it. 
+		Once the communication is establish, the program sends a character that the FPGA interprets as $send hit information$.
+		Then, the FPGA sends through the USB the $x$ and $y$ coordinated along with a $hash$ of the hit, that defines a unique identifier for it.
 		If the hit is a new hit, the program shows it in the UI and saves it in the history so that the user can see them again when desired.
 	\section{Interface}
 	\label{sec:program_interface}
-		The UI has been developed so the user can easily configure the connection and see the hits. 
+		The UI has been developed so the user can easily configure the connection and see the hits.
 		On one hand, the connection is establish automatically from the start, so the user does not need to do anything. Furthermore the hits, are immediately shown in an intuitive square that represents the platform where the sensors are located.
 
 		On the other hand, the interface only has two buttons. The first one is $Settings$ and it opens a window where the connections parameters can be configured. The second is $History$ and, when clicked once, it shows all the hits positions in that session. If clicked again, the program come back to detect more hits.
@@ -24,11 +24,11 @@
 
 	\section{Conclusions} % (fold)
 	\label{sec:high_level_programming_conclusions}
-		After having carried out all the experiments and tests we can assure the interface is not just stable and reliable, but also really easy to use. 
+		After having carried out all the experiments and tests we can assure the interface is not just stable and reliable, but also really easy to use.
 		The UI has shown to be both simple and useful when the test were made and also the connection has always been easy to set up from the beginning.
 		The program has been written in Qt and hence it is multi platform and we have had the opportunity to test it out in a Windows and Ubuntu based computers giving the same results.
 	% section conclusions (end)
-		\begin{figure}[hb!]
+		\begin{figure}[htb]
 			\begin{center}
 				\includegraphics[width=.8\textwidth]{figures/UI}
 			\end{center}

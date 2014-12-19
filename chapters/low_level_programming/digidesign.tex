@@ -17,12 +17,12 @@ Because solving the resulting system of equations in hardware directly is deemed
 The timing module has a separate input for each of the four piezoelectric elements.
 Each input is attached to an SR latch synchronised with the FPGA 50\si{MHz} clock so that input signals are sampled every 20\si{ns}.
 
-\begin{figure}[htb]
-    \centering
-    \input{figures/timing-module}
-    \caption{Timing module logic diagram.}
-    \label{fig:timing}
-\end{figure}
+% \begin{figure}[htb]
+%     \centering
+%     \input{figures/timing-module}
+%     \caption{Timing module logic diagram.}
+%     \label{fig:timing}
+% \end{figure}
 
 The timing module continuously counts the number of 50\si{MHz} clock cycles elapsed.
 When an input signal is detected, the SR latch is set and the number of clock cycles elapsed at that time is saved to a register.
