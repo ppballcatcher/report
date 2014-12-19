@@ -1,29 +1,36 @@
-\section{Microblaze MCS}
-A Microblaze micro controller system(MCS) is used for handling the following tasks in descending priority:
+%!TEX root = ../../report.tex
+\section{MicroBlaze MCS}
+A MicroBlaze micro controller system (MCS) is used for handling the following tasks in descending priority:
 \begin{itemize}
 	\item Fast and precise solution to the TDOA problem.
 	\item Calculating inverse kinematics for the robot arm.
 	\item Handling UART communication with a PC.
 \end{itemize}
-The choice of using a MCS is due to expediency in the implementation.
+%The choice to using a MCS is due to expediency in the implementation.
 %
-\subsection{Setup of Microblaze IP-core} 
-It is chosen to implement the solution of the TDOA problem in Microblaze MCS version 1.4. This soft core microcontroller implemented on an FPGA is used rather than developing the solution directly in VHDL. 
-The reason for this choice is that it is easier to implement the commonly used numerical methods for solving systems of linear equations in a sequential order rather than in parallel. The smaller and older Picroblaze MCS is avoided since xilinx does not support a C compiler \cite{picoBlazeCompiler}. 
-The Microblaze system with more than 4k of memory has proven take up more than the 50K logic gates available on the XC3S50AN, that is mounted on the previously use development board \cite{spartan3AN}.
-This small memory size is too small for easy implementations, which often includes large programs. As an example of a handy function that takes op a lot of program space is the printf function, that is very useful for debugging.
-Due to these limitations the more suitable Nexus 2 board is used which includes an Spartan-3E with 500K gates.  
+\subsection{Setup of MicroBlaze IP-core}
+It is chosen to implement a solver for the TDOA problem in a MicroBlaze MCS version 1.4.
+This soft core microcontroller -- implemented on an FPGA -- is used rather than developing the solution directly in VHDL.
+The reason for this choice is that it is easier to implement the commonly used numerical methods for solving systems of linear equations in a sequential order rather than in parallel. The smaller and older PicoBlaze MCS is avoided since no C compilers are supported by Xilinx \cite{picoBlazeCompiler}, and writing a solver in assembly language is deemed too error-prone.
 
-The Microblace MCS is included in the VHDL project as an IP-core using the IP-core generator GUI in ISE-design suit. Here the settings are left at their default values unless otherwise needed. The memory size is assigned to 32k since test showed sufficient space on the FPGA for this. The UART is setup to transmit and receive at a baud rate of 115200 without using interrupts. Four general purpose inputs(GPI) with a size of 32-bits is used to receive four timings values. The 32-bits precision is used since the Microblaze is a 32-bits processor. 
-Two general purpose outputs(GPO) is used. One of them contains the newest calculated angle from the inverse kinematics and the other one is used as a flag indicating that a new angle is available. 
-One external interrupt is used to initialize the calculation of the TDOA problem. 
+The MicroBlaze system with more than 4kB of memory has proven take up more than the 50K logic gates available on the XC3S50AN, that is mounted on the previously used development board \cite{spartan3AN}.
+This memory size is too small for implementations, which are not very well optimised for memory usage.
+An example of a handy function, that takes op a lot of program space, is the \custtt{printf} function, which is very useful for debugging.
+Due to these limitations the more suitable Digilent Nexys 2 board, which includes an Spartan-3E with 500K gates, is used.
+
+The MicroBlaze MCS is included in the VHDL project as an IP-core using the IP-core generator GUI in ISE-design suite. The settings are left at their default values unless otherwise noted. The memory size is assigned to 32kB since there proved to be sufficient space on the FPGA for this. The UART is set up to transmit and receive at a baud rate of 115200 without interrupts. Four general purpose inputs (GPI) with a bandwidth of 32-bits are used to receive timing values. The 32-bit precision is used since the MicroBlaze is a 32-bit processor.
+Two general purpose outputs (GPO) are used. One of them contains the most recent calculated angle from the inverse kinematics and the other one is used as a flag indicating that a new angle is available.
+One external interrupt is used to initialize the calculation of the TDOA problem. This interrupt is triggered by the timing hardware module.
 %
-\subsection{C-program on Microblaze}
-The program running on the Microblaze consists of a setup sequence followed by a while true loop responding with results of the latest solved TDOA problem upon request from the PC-program. Since there is rather strict timing constrains on calculating the inverse kinematics in order to move the arm under the ball before a second hit, the calculations are handled in a interrupt service routine. 
-After the calculations are done a software timer is started. When the time have elapsed the timing measurements are enabled again by setting a flag on a GPO port and the servo angle are set to its default position. The program is build using standard math utilities and specialized Microblace tools for GPIO, interrupts and UART.
+\subsection{C-program on MicroBlaze}
+The program running on the MicroBlaze consists of a setup sequence followed by an infinite loop, responding with results of the latest solved TDOA problem upon request from the PC-program. Since there are rather strict timing constrains on calculating the inverse kinematics in order to move the arm under the ball before a second hit, the calculations are handled in an interrupt service routine.
+
+After the calculations are done, a software timer is started. When the time has elapsed the timing hardware module is reset by setting a flag on a GPO port, and the servo angle is set to its default position.
+
+The program is built using a standard C and math library and specialized MicroBlaze tools for GPIO, interrupts and UART handling.
 %
 \subsection{Interrupts on Microblaze}
-The code in listing \ref{lst:interrupt} enables external interrupts by adding an interrupt handling routine that handles the calculations to the external interrupt number one.
+The code in listing \ref{lst:interrupt} enables external interrupts by registering an interrupt service routine, that handles the calculations, to the external interrupt number one.
 %
 \begin{lstlisting} [float={htb}, language=C, caption={C code that enables external interrupt},label={lst:interrupt} ]
 microblaze_register_handler(XIOModule_DeviceInterruptHandler,XPAR_IOMODULE_0_DEVICE_ID);
@@ -31,16 +38,17 @@ XIOModule_Connect(&gpio, INTR_ID1, (XInterruptHandler)isr, XPAR_IOMODULE_0_DEVIC
 XIOModule_Enable(&gpio, INTR_ID1);
 microblaze_enable_interrupts();
 \end{lstlisting}
-It does this by first registering the devices interrupt handler that handles all interrupts. After that the interrupt routine; isr, are added to the interrupt table and connected to the interrupt id for interrupt one. Lastly the interrupts is enabled by enabling the interrupts on interrupt one and afterwards enabling interrupts globally.
+It does this by first registering the interrupt handler that handles all interrupts. After that, the interrupt routine; \custtt{isr}, is added to the interrupt vector table and connected to the interrupt id for interrupt one. Lastly interrupts are enabled.% by enabling the interrupts on interrupt one and afterwards enabling interrupts globally.
 %
 \subsection{Solve TDOA}
-The solution to the TDOA problem is handled by solving the system of linear equations \ref{eq:linsys}. To keep implementation simple the solution is implemented with gauss elimination. Software implemented floating point precision are used in the calculations due to the fact that the used free version of Microblaze does not include a floating point arithmetic unit.
+The solution to the TDOA problem is found by solving the system of linear equations \eqref{eq:linsys}. To keep the implementation simple, the solution is implemented with gauss elimination. Software-implemented floating point precision is used in the calculations because the free version of MicroBlaze does not include a hardware floating point arithmetic unit.
+
 The gauss elimination is implemented by running through each column and for each do the following \cite{gauss}:
 \begin{itemize}
 	\item Pivoting by sorting rows from top to bottom according to descending pivot elements.
 	\item Eliminate elements in column under current pivot element by subtracting the current row multiplied with the element in the pivot column under the pivot element under consideration divided with the pivot element.
 \end{itemize}
-When the iterations reaches the last column the coefficient matrix is on an upper triangular matrix form. This enables back substitution beginning with the button row and calculating the solution x based on the previous calculated solution as can be seen in equation \ref{eq:backSub1} and \ref{eq:backSub2}.
+When the iterations reaches the last column the coefficient matrix is on an upper triangular matrix form. This enables back substitution beginning with the button row and calculating the solution x based on the previous calculated solution as can be seen in equation \eqref{eq:backSub1} and \eqref{eq:backSub2}.
 \begin{equation}
 	x_n = \frac{b_n}{a_{nn}}
 	\label{eq:backSub1}
@@ -49,26 +57,28 @@ When the iterations reaches the last column the coefficient matrix is on an uppe
 	x_i = \frac{1}{a_{ii}} (b_i - \sum_{j=i+1}^{n-1} a_{ij}x_j)
 	\label{eq:backSub2}
 \end{equation}
-Where a is the coefficient matrix, b is the right hand side vector and n is the number of rows and columns. $i$ is the row-index and $j$ is the column index.
+Where $a$ is the coefficient matrix, $b$ is the right hand side vector and $n$ is the number of rows and columns. $i$ is the row-index and $j$ is the column index.
+
 \subsection{GPIO and UART}
-The reading from general purpose registers are done using the command;
-
-\custtt{XIOModule\_DiscreteRead(\&gpio, \#GPO register)},
-
-where the gpio is a struct handling the IO's that are initialized and started before use.
-Writing to a GPO is done in a similar way.
+The reading from general purpose registers are done using the command \custtt{XIOModule\-\_DiscreteRead(\&gpio, \#GPO register)}, where \custtt{gpio} is a struct handling the IO modules that are initialized and started before use.
+Writing to a GPO is done in a similar fashion.
 By running the command \custtt{XIOModule\_CfgInitialize(\&gpio, NULL, 1)} the reading from the UART is enabled.
 
 \section{Inverse kinematics and control }
 \label{sec:mechanics_kinematics}
-The inverse kinematics for the one joint arm can be calculated very easily using the x and y position calculated from the TDOA information using equation \ref{eq:angle}.
+The inverse kinematics for the one joint arm can be calculated very easily using the $x$ and $y$ position calculated from the TDOA information using equation \eqref{eq:angle}.
 \begin{equation}
 \theta = atan(y/x)
 \label{eq:angle}
 \end{equation}
-This calculation are easily implemented in C code on microblaze MCS using the "math.h" library.
+This calculation is easily implemented in C code on MicroBlaze MCS using the standard math library functions exposed in \custtt{math.h}.
+
 \subsection{Servo control}
-The servo is controlled to move the arm to the calculated angle. It is found that the servo copes with the standard for servos by going to zero degree when a $1\si{ms}$ high is applied. When the PPM signal is high for $2\si{ms}$ it moves to a $90\si{\degree}$ angle. In between there is a linear relationship between duty cycle and the degrees it moves to.
+A hardware PWM generator with 10-bit resolution, implemented in the FPGA, is used to output the actual signal the the servo. This is to take some load off the microcontroller, so that it only needs to set the desired duty cycle once.
+
+The servo is controlled to move the arm to the calculated angle. It is found that the servo follows the standard for servos by going to zero degree angle when a $1\si{ms}$ high period is applied. When the PPM signal is high for $2\si{ms}$ it moves to a $90\si{\degree}$ angle. In between there is a linear relationship between duty cycle and the angle it moves to.
+
+The microprocessor maps the desired angle in $[0\si{\degree},90\si{\degree}]$ to a PWM duty cycle corresponding to a high-time in the interval $[1\si{ms},2\si{ms}]$.
 %
 \subsection{Evaluation}
 The ability of the implemented program's ability to for fill the tasks is verified separately. The correctness of the solution of the implemented Gauss-elimination have been verified by comparing solutions with MATLAB's solution which give exactly the same solution.
