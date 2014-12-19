@@ -34,7 +34,7 @@ It does this by first registering the devices interrupt handler that handles all
 %
 \subsection{Solve TDOA}
 The solution to the TDOA problem is handled by solving the system of linear equations described in section TODO:(intro about TDOA reference). To keep implementation simple the solution is implemented with gauss elimination. Software implemented floating point precision are used in the calculations due to the fact that the used free version of Microblaze does not include a floating point arithmetic unit. 
-The gauss elimination is implemented by running through each column and for each do the following (Source Numerical analysis):
+The gauss elimination is implemented by running through each column and for each do the following \cite{gauss}:
 \begin{itemize}
 	\item Pivoting by sorting the from top to bottom rows according to descending pivot elements.
 	\item Eliminate elements in column under current pivot element by subtracting the current row multiplied with the element in the pivot column under the pivot element under consideration divided with the pivot element.
