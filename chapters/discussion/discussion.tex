@@ -2,7 +2,27 @@
 \chapter{Discussion}
 \label{chap:discussion}
 
-Hej \cite{anon09}
+One of the main problems of the system is, that measurements obtained from the piezoelectric sensors are inconsistent.
+Even small variations in measured time differences cause a large error in calculated position.
+Here we discuss possible ways of improving the precision, although at this stage these propositions are yet to be tested.
+
+\section{Platform}
+The platform decides how the waves travel from the impact point. Both the shape and the propagation velocity.
+Using a larger platform would allow for greater distances between each sensor and thus greater difference in timing values, giving more room for error.
+
+At the the of writing a wave velocity estimate is used, which may or may not be entirely correct.
+Knowing the velocity of the wave in the used material precisely would obviously allow for more accurate calculations.
+
+\section{Sensors and their signals}
+Instead of using comparator circuits and outputting a single ``high'' voltage beyond a certain threshold, one could skip the analogue comparator completely and sample the signal from the piezoelectric sensors digitally.
+Processing the cross correlation of the sampled signals one by one (could be done in parallel on the FPGA), the time shift between each signal should theoretically be at the tallest peak of the cross correlation.
+
+In theory, with a perfect model, the outcome of four-sensor multilateration should be a single point. With errors in measurements this is no longer true however. Using more than four sensors would provide more sensor data to use in an optimization problem which may be solved using e.g. a least-squares method.
+
+Similar to \cite{anon09}, most problems stem from the sensors and the signal pre-processing.
+The main difference, which turns out to be in our favour, is that we are not currently interested in the amplitude of the signals.
+Properly amplifying the signals seem to also pose a problem.
+However, if this project wants to attempt estimating the drop-height of the ball, the signal amplitude becomes important.
 
 
 % * Platform material/size/shape.
