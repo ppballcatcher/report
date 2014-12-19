@@ -20,9 +20,9 @@ A physical platform and arm is built to mount the electronics on and enable actu
 	The solution is used to actuate the arm and position it to catch the ball as it returns to the platform after the first bounce.
 	
 	The impact point is stored in microprocessor memory until the next ball-impact, and can be requested by the PC program through UART.
-	Finally the GUI shows a visual interpretation of the data.
+	Finally the GUI shows a visual interpretation of the data. The determination of the impact point is determined by solving the time difference of arrival problem(TDOA).
 	%
-	\section{Time difference of arrival (TDOA)}
+	\section{Time difference of arrival}
 	In this section the relationship between differences in time measurements from multiple sensors and the $(x,y)$-position of the emitter are derived.
 	The problem can be modelled as in figure \ref{fig:tdoa_model} where the following parameters are constants given from the physical configuration and measurements:
 	\begin{itemize}
