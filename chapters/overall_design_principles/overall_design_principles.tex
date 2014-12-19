@@ -3,28 +3,28 @@
 \label{chap:overall_design_principles}
 The goal of catching a ball is realised using a combination of analogue and digital circuitry, firmware for a soft microprocessor and a PC program featuring a GUI to visualise the impact point of the ball.
 Digital logic and a MicroBlaze soft microprocessor is described in VHDL and implemented on a Xilinx Spartan-3E FPGA, firmware is written in C and the GUI program is written in C++ using the Qt framework.
-A physical platform and arm is built to mount the electronics on and enable actuation.
-
+A physical platform and arm is built to mount the electronics on and enable actuation of a arm with a basket to catch a ball.
+%
 	\section{Components overview}
 	Figure \ref{fig:overview} depicts an overview diagram of the components used in the combined system and how they interface with each other.
 	The current produced by the piezoelectric sensors is used to pull FPGA pins to a voltage level which represents logic high.
 	\begin{figure}[htb]
 		\centering
-		\includegraphics[width=.96\textwidth]{figures/overview}
-		\caption{Top level diagram of the combined system components.}
+		\includegraphics[width=1\textwidth]{figures/overview}
+		\caption{Top level diagram of the combined system components with bus widths assigned.}
 		\label{fig:overview}
 	\end{figure}
-
+	%
 	Once a piezoelectric sensor triggers an input pin on the FPGA, the current system time is noted.
 	When all four inputs have been triggered, the microprocessor receives an interrupt and begins finding the $(x,y)$-position of the impact point.
 	The solution is used to actuate the arm and position it to catch the ball as it returns to the platform after the first bounce.
-
+	
 	The impact point is stored in microprocessor memory until the next ball-impact, and can be requested by the PC program through UART.
 	Finally the GUI shows a visual interpretation of the data.
-
-	\section{Time difference of arrival}
+	%
+	\section{Time difference of arrival (TDOA)}
 	In this section the relationship between differences in time measurements from multiple sensors and the $(x,y)$-position of the emitter are derived.
-	The problem can be modelled as in figure \ref{fig:tdoa_model} where the following parameters are known from the physical configuration and measurements:
+	The problem can be modelled as in figure \ref{fig:tdoa_model} where the following parameters are constants given from the physical configuration and measurements:
 	\begin{itemize}
 		\item Time of arrival of sound at sensors $a$, $b$, $c$ and $d$.
 		\item Speed of sound in chosen material.
@@ -40,7 +40,7 @@ A physical platform and arm is built to mount the electronics on and enable actu
 		\caption{Top-down view of platform surface area showing sensors and impact point.}
 		\label{fig:tdoa_model}
 	\end{figure}
-
+	%
 	Assuming constant speed of sound through the impact plane, \eqref{eq:speedOfSoundDistA} describes the relationship between time difference between measurement and impact $(t_a - t)$ and the distance the impact point is from sensor $a$.
 	\begin{equation}
 		l_a = v(t_a - t) \Leftrightarrow l_a^2 = v^2(t_a - t)^2
@@ -79,5 +79,4 @@ A physical platform and arm is built to mount the electronics on and enable actu
 		 \left[ \begin{array}{c} x \\ y \\ t \end{array} \right] = \left[ \begin{array}{c} k_{ab} \\ k_{bc} \\ k_{cd}\end{array} \right]
 		 \label{eq:linsys}
 	\end{equation}
-
 % chapter overall_design_priciples (end)
